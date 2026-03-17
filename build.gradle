@@ -1,10 +1,27 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.12.0'
 }
 
 group = 'mysya.cat'
 version = '1.0-SNAPSHOT'
 
+
+allure {
+    version.set("2.25.0")
+
+    adapter {                   // отвечает за появление папочки build/allure-results
+        aspectjWeaver.set(true) //обработка аннотации @Step
+
+
+        frameworks {
+            junit5 {                         //название фреймворка
+                adapterVersion.set("2.33.0") //версия интеграции фреймворка и Allure
+
+            }
+        }
+    }
+}
 repositories {
     mavenCentral()
 }
@@ -13,8 +30,11 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'com.codeborne:selenide:7.14.0'
+    testImplementation 'io.qameta.allure:allure-selenide:2.25.0'
+    testImplementation 'io.qameta.allure:allure-junit5:2.25.0'
 }
 
 test {
     useJUnitPlatform()
+    systemProperties(System.getProperties())
 }
