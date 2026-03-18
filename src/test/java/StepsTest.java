@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class StepsTest {
+
   private static final String REPOSITORY = "eroshenkoam/allure-example";
   // private static final int ISSUE = 80;
 
@@ -26,6 +27,8 @@ public class StepsTest {
   @Test
   public void testLambdaStep() {
 
+
+    // подключили Allure
     SelenideLogger.addListener("allure", new AllureSelenide());
 
     step("Открываем главную страницу", () -> {
@@ -39,16 +42,31 @@ public class StepsTest {
     step("Кликаем по ссылке репозитория " + REPOSITORY, () -> {
       $(linkText(REPOSITORY)).click();
     });
+  }
 
+  // Page Object + Steps
+  @Test
+  public void testAnnotatedStep() {
+    SelenideLogger.addListener("allure", new AllureSelenide());
+    WebSteps steps = new WebSteps(); // WebSteps — это отдельный класс
 
-    //step("Открываем таб Issues", () -> {
-    // $("#issues-tab").click(); });
-    //step("Проверяем наличие Issue с номером " + ISSUE, () -> {
-    //$(withText("#" + ISSUE)).should(Condition.exist); });
-
-
-    }
+    steps.openMainPage();
+    steps.searchForRepository(REPOSITORY);
+    steps.clickOnRepositoryLink(REPOSITORY);
+    //steps.openIssuesTab();
+    //steps.shouldSeeIssueWithNumber(ISSUE);
 
   }
+}
+
+    /* step("Открываем таб Issues", () -> {
+       $("#issues-tab").click(); });
+       step("Проверяем наличие Issue с номером " + ISSUE, () -> {
+       $(withText("#" + ISSUE)).should(Condition.exist); }); */
+
+
+
+
+
 
 
